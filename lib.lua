@@ -170,6 +170,13 @@ local function Round(Number, Factor)
 	return Result
 end
 
+local function round(x, degree, base)
+	base = base or 10 -- default
+	degree = degree or 0 -- default
+	local n = base ^ degree
+	return math.floor(x * n + 0.5) / n
+end
+
 local function ReturnProperty(Object)
 	if Object:IsA("Frame") or Object:IsA("TextButton") then
 		return "BackgroundColor3"
@@ -1069,7 +1076,7 @@ function OrionLib:MakeWindow(WindowConfig)
 				end)
 
 				function Slider:Set(Value)
-					self.Value = math.clamp(Round(Value, SliderConfig.Increment), SliderConfig.Min, SliderConfig.Max)
+					self.Value = math.clamp(round(Value, SliderConfig.Increment), SliderConfig.Min, SliderConfig.Max)
 					TweenService:Create(SliderDrag,TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),{Size = UDim2.fromScale((self.Value - SliderConfig.Min) / (SliderConfig.Max - SliderConfig.Min), 1)}):Play()
 					SliderBar.Value.Text = tostring(self.Value) .. " " .. SliderConfig.ValueName
 					SliderDrag.Value.Text = tostring(self.Value) .. " " .. SliderConfig.ValueName
